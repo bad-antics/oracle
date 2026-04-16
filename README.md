@@ -108,48 +108,22 @@ generate_report(generator, result, format="html", target="MyProject")
 ### Analysis Pipeline
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
 │                        Oracle Pipeline                           │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   ┌─────────┐    ┌─────────────┐    ┌──────────────┐            │
 │   │  Code   │───▶│  Tokenizer  │───▶│  AST Parser  │            │
-│   └─────────┘    └─────────────┘    └──────────────┘            │
-│                                            │                     │
-│                        ┌───────────────────┼───────────────────┐ │
 │                        ▼                   ▼                   ▼ │
-│              ┌──────────────┐    ┌──────────────┐    ┌──────────┐│
 │              │    Static    │    │   Semantic   │    │   Data   ││
 │              │   Analysis   │    │   Analysis   │    │   Flow   ││
-│              └──────────────┘    └──────────────┘    └──────────┘│
-│                        │                   │                   │ │
-│                        └───────────────────┼───────────────────┘ │
 │                                            ▼                     │
-│                              ┌──────────────────┐                │
 │                              │  Feature Vector  │                │
-│                              └──────────────────┘                │
-│                                      │                           │
-│                   ┌──────────────────┼──────────────────┐        │
 │                   ▼                  ▼                  ▼        │
-│          ┌──────────────┐   ┌──────────────┐   ┌──────────────┐  │
 │          │  Predictor   │   │  Classifier  │   │   Anomaly    │  │
 │          │     (ML)     │   │  (Ensemble)  │   │  Detection   │  │
-│          └──────────────┘   └──────────────┘   └──────────────┘  │
-│                   │                  │                  │        │
-│                   └──────────────────┼──────────────────┘        │
 │                                      ▼                           │
-│                           ┌──────────────────┐                   │
 │                           │    Findings      │                   │
 │                           │  & Risk Scores   │                   │
-│                           └──────────────────┘                   │
-│                                      │                           │
 │                                      ▼                           │
-│                           ┌──────────────────┐                   │
 │                           │     Report       │                   │
 │                           │   Generation     │                   │
-│                           └──────────────────┘                   │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
 ```
 
 ### Machine Learning Components
@@ -234,7 +208,6 @@ config = ScanConfig(
     include_patterns = ["*.c", "*.py", "*.js"],
     exclude_patterns = ["*test*", "*vendor*"],
     max_file_size = 1_000_000,
-    
     # Analysis modules
     enable_static = true,
     enable_semantic = true,
@@ -242,16 +215,13 @@ config = ScanConfig(
     enable_taint = true,
     enable_ml = true,
     enable_anomaly = true,
-    
     # Thresholds
     min_confidence = 0.5,
     max_findings_per_file = 50,
-    
     # Performance
     parallel = true,
     max_workers = 8,
     timeout_seconds = 60,
-    
     # Output
     verbose = false,
     generate_report = true,
